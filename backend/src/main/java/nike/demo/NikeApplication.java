@@ -9,7 +9,4 @@ public class NikeApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(NikeApplication.class, args);
 	}
-
-
-
 }

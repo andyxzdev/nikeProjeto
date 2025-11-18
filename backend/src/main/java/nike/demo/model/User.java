@@ -2,7 +2,9 @@ package nike.demo.model;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -17,9 +19,39 @@ public class User {
 
     private String password;
     private String function;
-    private Arrays cart;
-    private Arrays wishList;
-    private Arrays viewedProducts;
+    private String cart;
+    private String wishList;
+    private String viewedProducts;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Product> wishlist = new ArrayList<>();
+
+    public List<Product> getListaDesejos() {
+        return wishlist;
+    }
+
+    public void setListaDesejos(List<Product> wishlist) {
+        this.wishlist = wishlist;
+    }
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Product> viewedproducts = new ArrayList<>();
+
+    public List<Product> getWishlist() {
+        return wishlist;
+    }
+
+    public void setWishlist(List<Product> wishlist) {
+        this.wishlist = wishlist;
+    }
+
+    public List<Product> getViewedproducts() {
+        return viewedproducts;
+    }
+
+    public void setViewedproducts(List<Product> viewedproducts) {
+        this.viewedproducts = viewedproducts;
+    }
 
     public Long getId() {
         return id;
@@ -53,27 +85,27 @@ public class User {
         this.function = function;
     }
 
-    public Arrays getCart() {
+    public String getCart() {
         return cart;
     }
 
-    public void setCart(Arrays cart) {
+    public void setCart(String cart) {
         this.cart = cart;
     }
 
-    public Arrays getWishList() {
+    public String getWishList() {
         return wishList;
     }
 
-    public void setWishList(Arrays wishList) {
+    public void setWishList(String wishList) {
         this.wishList = wishList;
     }
 
-    public Arrays getViewedProducts() {
+    public String getViewedProducts() {
         return viewedProducts;
     }
 
-    public void setViewedProducts(Arrays viewedProducts) {
+    public void setViewedProducts(String viewedProducts) {
         this.viewedProducts = viewedProducts;
     }
 }
