@@ -3,12 +3,36 @@ package nike.demo.model;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "tables")
+@Table(name = "products")
 public class Product {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private Category categoryProduct;
+
+    public Category getCategoryProduct() {
+        return categoryProduct;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public void setCategoryProduct(Category categoryProduct) {
+        this.categoryProduct = categoryProduct;
+    }
 
     private String name;
     private String slug;

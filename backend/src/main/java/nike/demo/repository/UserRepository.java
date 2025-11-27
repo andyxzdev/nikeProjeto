@@ -8,5 +8,5 @@ import java.util.List;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long > {
-   // List<User>findByAllIdDate(Long id);
+  // List<User>findByAllIdDate(Long id); //AllIdDate só funciona se tiver esse campo na classe User
 }
