@@ -60,14 +60,6 @@ public class Product {
         this.name = name;
     }
 
-    public String getSlug() {
-        return slug;
-    }
-
-    public void setSlug(String slug) {
-        this.slug = slug;
-    }
-
     public int getPrice() {
         return price;
     }

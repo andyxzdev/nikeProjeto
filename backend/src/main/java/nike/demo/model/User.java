@@ -1,9 +1,7 @@
 package nike.demo.model;
 
 import jakarta.persistence.*;
-
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Entity
@@ -18,40 +16,44 @@ public class User {
     private String email;
 
     private String password;
-    private String function;
-    private String cart;
-    private String wishList;
-    private String viewedProducts;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private String function; // ou "role" se preferir
+
+    // ======================
+    // RELACIONAMENTO COM CARRINHO (CORRIGIDO!)
+    // ======================
+    @OneToOne(mappedBy = "user",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true,
+            fetch = FetchType.LAZY)
+    private Cart cart;  // ← Agora é Cart, não String!
+
+    // ======================
+    // LISTA DE DESEJOS
+    // ======================
+    @OneToMany(mappedBy = "user",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true,
+            fetch = FetchType.LAZY)
     private List<Product> wishlist = new ArrayList<>();
 
-    public List<Product> getListaDesejos() {
-        return wishlist;
-    }
+    // ======================
+    // PRODUTOS VISUALIZADOS
+    // ======================
+    @OneToMany(mappedBy = "user",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true,
+            fetch = FetchType.LAZY)
+    private List<Product> viewedProducts = new ArrayList<>();
 
-    public void setListaDesejos(List<Product> wishlist) {
-        this.wishlist = wishlist;
-    }
+    // ======================
+    // CONSTRUTORES
+    // ======================
+    public User() {}
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Product> viewedproducts = new ArrayList<>();
-
-    public List<Product> getWishlist() {
-        return wishlist;
-    }
-
-    public void setWishlist(List<Product> wishlist) {
-        this.wishlist = wishlist;
-    }
-
-    public List<Product> getViewedproducts() {
-        return viewedproducts;
-    }
-
-    public void setViewedproducts(List<Product> viewedproducts) {
-        this.viewedproducts = viewedproducts;
-    }
+    // ======================
+    // GETTERS E SETTERS
+    // ======================
 
     public Long getId() {
         return id;
@@ -85,27 +87,51 @@ public class User {
         this.function = function;
     }
 
-    public String getCart() {
+    // Carrinho
+    public Cart getCart() {
         return cart;
     }
 
-    public void setCart(String cart) {
+    public void setCart(Cart cart) {
         this.cart = cart;
     }
 
-    public String getWishList() {
-        return wishList;
+    // Lista de desejos
+    public List<Product> getWishlist() {
+        return wishlist;
     }
 
-    public void setWishList(String wishList) {
-        this.wishList = wishList;
+    public void setWishlist(List<Product> wishlist) {
+        this.wishlist = wishlist;
     }
 
-    public String getViewedProducts() {
+    // Produtos visualizados
+    public List<Product> getViewedProducts() {
         return viewedProducts;
     }
 
-    public void setViewedProducts(String viewedProducts) {
+    public void setViewedProducts(List<Product> viewedProducts) {
         this.viewedProducts = viewedProducts;
+    }
+
+    // Método auxiliar (opcional, mas muito útil)
+    public void addToWishlist(Product product) {
+        wishlist.add(product);
+        product.setUser(this); // se você tiver o @ManyToOne no Product
+    }
+
+    public void removeFromWishlist(Product product) {
+        wishlist.remove(product);
+        product.setUser(null);
+    }
+
+    // toString (opcional, mas ajuda no debug)
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", email='" + email + '\'' +
+                ", function='" + function + '\'' +
+                '}';
     }
 }
