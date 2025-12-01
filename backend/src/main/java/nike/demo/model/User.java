@@ -51,9 +51,7 @@ public class User {
     // ======================
     public User() {}
 
-    // ======================
-    // GETTERS E SETTERS
-    // ======================
+
 
     public Long getId() {
         return id;
